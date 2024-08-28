@@ -3,6 +3,7 @@ node_modules
 .vscode
 src
 test
+e2e
 examples
 docs
 .eslintignore
