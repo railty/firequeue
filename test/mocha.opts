@@ -1,4 +1,0 @@
--R spec
---timeout 10000
-test/**/test_*.ts
---require ts-node/register

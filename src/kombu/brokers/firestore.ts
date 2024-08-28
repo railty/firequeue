@@ -105,6 +105,20 @@ export default class FirestoreBroker implements CeleryBroker {
     });
   }
 
+  public async listTasks(routingKey: string): Promise<any> {
+    const refDoc = this.store.doc(routingKey);
+    const doc = await refDoc.get()
+    const tasks = doc.data().value;
+    return tasks;
+  }
+
+  public async deleteTasks(routingKey: string, tasks: Array<string>): Promise<any> {
+    const refDoc = this.store.doc(routingKey);
+    return refDoc.update({
+      value: admin.firestore.FieldValue.arrayRemove(...tasks)
+    });
+  }
+
   /**
    * @method FirestoreBroker#subscribe
    * @param {string} queue

@@ -105,6 +105,17 @@ export default class RedisBroker implements CeleryBroker {
     return this.redis.lpush(routingKey, JSON.stringify(message));
   }
 
+  public async listTasks(routingKey: string): Promise<any> {
+    const tasks = await this.redis.lrange(routingKey, 0, -1);
+    return tasks;
+  }
+
+  public async deleteTasks(routingKey: string, tasks: Array<string>): Promise<any> {
+    for (let task of tasks){
+      await this.redis.lrem(routingKey, 1, task);
+    }
+  }
+
   /**
    * @method RedisBroker#subscribe
    * @param {string} queue

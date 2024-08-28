@@ -113,5 +113,10 @@ class Client extends base_1.default {
         const result = new result_1.AsyncResult(taskId, this.backend);
         return result;
     }
+
+    listTasks() {
+        this.broker.listTasks(this.conf.CELERY_QUEUE);
+    }
+    
 }
 exports.default = Client;

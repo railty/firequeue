@@ -11,9 +11,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "celery-node": "^0.5.9",
     "firebase": "^10.13.0",
     "firebase-admin": "^12.4.0",
+    "firequeue": "github:railty/firequeue",
     "xml2js": "^0.6.2"
   }
 }

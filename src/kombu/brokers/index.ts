@@ -12,6 +12,8 @@ export interface CeleryBroker {
     headers: object,
     properties: object
   ) => Promise<any>;
+  listTasks: (routingKey: string) => Promise<any>;
+  deleteTasks: (routingKey: string, tasks: Array<string>) => Promise<any>;
   subscribe: (queue: string, callback: Function) => Promise<any>;
 }
 

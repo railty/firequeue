@@ -27,8 +27,8 @@ const list = async ()=>{
   const jobs = await listTasks();
 }
 
-main();
+//main();
 
-//list();
+list();
 
 

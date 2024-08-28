@@ -1,5 +1,5 @@
 import fs from 'fs/promises';
-import celery from "celery-node";
+import celery from "firequeue";
 import xml2js from  'xml2js';
 import serviceAccount from "./firequeue.sa.js";
 import { v4 } from 'uuid';
@@ -50,7 +50,7 @@ export const createTask = async (srcImage, originalName)=>{
 }
 
 export const listTasks = async ()=>{
-  const jobs = await client.backend.listTasks();
+  const jobs = await client.backend.lrange();
   return jobs;
 }
 

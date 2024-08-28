@@ -104,7 +104,20 @@ export default class RedisBackend implements CeleryBackend {
   lrange(key, start, stop){
     return this.redis.lrange(key, start, stop);
   }
-  //////////////////////////////////////////////////////////
+
+  async listResults() {
+    const results = await this.redis.keys(`${keyPrefix}*`);
+    return results.map((r)=>({
+      id: r,
+      value: "not ready yet"
+    }))
+  }
+
+  async deleteResults(results: Array<string>): Promise<void>{
+    await this.redis.del(...results);
+  }
+
+//////////////////////////////////////////////////////////
 
   /**
    * @method RedisBackend#set

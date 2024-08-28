@@ -91,19 +91,29 @@ export default class FirestoreBackend implements CeleryBackend {
     return keyPrefix;
   }
 
-  async keys() {
+  async listResults() {
     const snapCol = await this.store.get();
     const docs = [];
     snapCol.forEach(doc => {
-      docs.push(doc.id);
+      if (doc.id.startsWith(keyPrefix)){
+        docs.push({
+          id: doc.id,
+          value: doc.data().value
+        });
+      }
     });
     return docs;
   }
 
-  async lrange(key, start, stop){
-    const doc = await this.get(key);
-    return doc;
+  async deleteResults(results) {
+    const batch = this.firestore.batch();
+    for (let r of results){
+      const refDoc = this.store.doc(r);
+      batch.delete(refDoc);
+    }
+    await batch.commit();
   }
+ 
   //////////////////////////////////////////////////////////
 
   /**

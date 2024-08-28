@@ -112,4 +112,38 @@ describe("celery functional tests", () => {
         })
     });
   });
+
+  describe("List tasks", async () => {
+    it("should list all the pending tasks", async() => {
+      client.createTask("tasks.add").delay([1, 2]);
+      const ts = await client.listTasks();
+      const tasks = ts.map((t)=>JSON.parse(t));
+      console.log("tasks = ", tasks.length);
+
+      if (tasks.length > 4){
+        await client.deleteTasks([ts[1], ts[2], ts[3]]);
+      }
+
+      const ts2 = await client.listTasks();
+      const tasks2 = ts2.map((t)=>JSON.parse(t));
+      console.log("tasks = ", tasks2.length);
+    });
+  });
+
+  describe("List results", async () => {
+    it("should list all the completed results", async() => {
+      const results = await client.listResults();
+      console.log(results.length);
+
+      const toBeDeleted = [results[1].id, results[3].id, results[5].id];
+      console.log(toBeDeleted);
+
+      await client.deleteResults(toBeDeleted);
+
+      const results2 = await client.listResults();
+      console.log(results2.length);
+
+    });
+  });
+
 });

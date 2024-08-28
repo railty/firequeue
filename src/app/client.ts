@@ -40,6 +40,25 @@ export default class Client extends Base {
     );
   }
 
+  public async listResults(): Promise<any> {
+    const results = await this.backend.listResults();
+    return results;
+  }
+
+  public async deleteResults(tasks: Array<string>): Promise<any> {
+    const results = await this.backend.deleteResults(tasks);
+    return results;
+  }
+
+  public async listTasks(): Promise<any> {
+    const tasks = await this.broker.listTasks(this.conf.CELERY_QUEUE);
+    return tasks;
+  }
+
+  public async deleteTasks(tasks: Array<string>): Promise<any> {
+    await this.broker.deleteTasks(this.conf.CELERY_QUEUE, tasks);
+  }
+
   public asTaskV2(
     taskId: string,
     taskName: string,
