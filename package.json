@@ -1,0 +1,61 @@
+{
+  "name": "firequeue",
+  "version": "0.6.0",
+  "description": "celery written in nodejs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "format": "prettier --write \"{,!(node_modules)/**/}*.{js,ts}\"",
+    "format-check": "prettier --check \"{,!(node_modules)/**/}*.{js,ts}\"",
+    "dist": "tsc",
+    "test": "mocha -r ts-node/register ./test/**/*",
+    "prepublishOnly": "npm run dist & npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/railty/firequeue.git"
+  },
+  "keywords": [
+    "node-celery",
+    "celery",
+    "celery-node",
+    "task",
+    "worker",
+    "queue",
+    "background",
+    "rabbitmq",
+    "redis"
+  ],
+  "author": "zxning@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/railty/firequeue/issues"
+  },
+  "homepage": "https://github.com/railty/firequeue#readme",
+  "devDependencies": {
+    "@types/amqplib": "^0.10.5",
+    "@types/chai": "^4.3.17",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^22.5.0",
+    "@types/sinon": "^17.0.3",
+    "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.2.0",
+    "@typescript-eslint/parser": "^8.2.0",
+    "chai": "^4.5.0",
+    "eslint": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-mocha": "^10.5.0",
+    "express": "^4.19.2",
+    "mocha": "^10.7.3",
+    "prettier": "^3.3.3",
+    "sinon": "^18.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.4.0",
+    "ioredis": "^5.4.1",
+    "uuid": "^10.0.0"
+  }
+}

@@ -1,0 +1,12 @@
+node_modules
+.git*
+.vscode
+src
+test
+examples
+docs
+.eslintignore
+.eslintrc
+.prettierignore
+*.md
+tsconfig.json

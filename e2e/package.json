@@ -1,0 +1,19 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "celery-node": "^0.5.9",
+    "firebase": "^10.13.0",
+    "firebase-admin": "^12.4.0",
+    "xml2js": "^0.6.2"
+  }
+}

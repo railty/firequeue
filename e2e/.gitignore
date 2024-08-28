@@ -1,0 +1,4 @@
+node_modules
+.vscode
+firequeue.sa.js
+__pycache__
