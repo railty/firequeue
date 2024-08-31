@@ -1,0 +1,2 @@
+1. in the lib project (the root folder), run "npm link", this will create a symlink in $nvm/versions/lib/node_modules
+2. in the test project (the e2e folder), run 'npm i celery-node', this will add the dependency into the package.json, and will download the npm into node_modules folder, then 'npm link celery-node', this will create a symlink in the node_modules, (therefore overwrite the folder just created), pointing the the .nvm/versions/lib/node_modules/celery-node, and then redirect to the lib proejct. then you need run 'npm i' again to download the correct code

@@ -1,0 +1,15 @@
+{
+  "name": "firequeue-admin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dist": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}
