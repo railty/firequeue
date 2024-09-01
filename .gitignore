@@ -1,6 +1,2 @@
 node_modules
-e2e/invoices/*.png
-e2e/invoices/*.xml
-e2e/invoices/*.json
-e2e/firequeue.sa.js
-test/firequeue.sa.js
+firequeue.sa.js

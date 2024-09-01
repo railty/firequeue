@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { createClient } from 'firequeue';
 import { firestore } from "../initFb";
 import { collection } from "firebase/firestore"; 
+import { v4 } from "uuid";
 
 import './App.css'
 
@@ -12,11 +13,12 @@ function App() {
   const [results, setResults] = useState();
 
   const addTask = async ()=>{
-    const taskId = "12344444";
-    await client.sendTask("job.tasks.convert", [], {abc: 123}, taskId);
+    const taskId = v4();
+    await client.sendTask("job.tasks.convert", [], {taskId, abc: 123}, taskId);
     console.log(taskId);
     await dl();
   }
+
   const check = async (taskId)=>{
     const status = await client.checkTask(taskId);
     console.log(status);
@@ -27,7 +29,6 @@ function App() {
   }
 
   const dl = async ()=>{
-
     let results = await client.listResults();
     results = results.map((r)=>{
       r.value = JSON.parse(r.value);
@@ -38,11 +39,10 @@ function App() {
     console.log("results", results);
 
     let tasks = await client.listTasks();
-    tasks = tasks.map((t)=>({
-      value: t,
-      data: JSON.parse(t),
-      selected: false
-    }));
+    tasks = tasks.map((t)=>{
+      t.selected = false;
+      return t;
+    });
     setTasks(tasks);
     console.log("tasks", tasks);
   }
@@ -51,16 +51,17 @@ function App() {
     dl();
   }, []);
 
-  const deleteSelected = async ()=>{
-    const selected = results.filter((r)=>r.selected).map((r)=>r.id);
-    console.log(selected);
-    await client.deleteResults(selected);
-  }
-
-  const deleteSelectedTask = async ()=>{
+  const deleteSelectedTasks = async ()=>{
     const selected = tasks.filter((r)=>r.selected).map((r)=>r.value);
     console.log(selected);
     await client.deleteTasks(selected);
+    await dl();
+  }
+
+  const deleteSelectedResults = async ()=>{
+    const selected = results.filter((r)=>r.selected).map((r)=>r.id);
+    console.log(selected);
+    await client.deleteResults(selected);
     await dl();
   }
 
@@ -83,7 +84,7 @@ function App() {
           <thead>
             <tr>
               <th>Pending tasks total = {tasks.length}</th>
-              <th><button className="btn btn-primary" onClick={deleteSelectedTask}>Delete Selected Task</button></th>
+              <th><button className="btn btn-primary" onClick={deleteSelectedTasks}>Delete Selected Tasks</button></th>
             </tr>      
           </thead>
           <tbody>
@@ -91,6 +92,7 @@ function App() {
               <tr key={i}>
                 <td><a onClick={()=>{check(task.data.headers.id)}}>{task.data.headers.id}</a></td>
                 <td>{task.data.headers.task}</td>
+                <td>{task.data.body}</td>
                 <td>
                   <input type="checkbox" className="checkbox" checked={task.selected} onChange={(e)=>{
                     tasks[i].selected = e.target.checked;
@@ -107,7 +109,10 @@ function App() {
       {results && (
         <table className="table border-2">
           <thead>
-            <tr><th>Completed tasks (total = {results.length})</th></tr>      
+            <tr>
+              <th>Completed tasks (total = {results.length})</th>
+              <th><button className="btn btn-primary" onClick={deleteSelectedResults}>Delete Selected Results</button></th>
+            </tr>      
           </thead>
           <tbody>
             {results.map((result, i) => (

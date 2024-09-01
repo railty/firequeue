@@ -98,8 +98,21 @@ export default class FirestoreBroker{
   public async listTasks(routingKey: string): Promise<any> {
     const refDoc = doc(this.collection, routingKey);
     const docSnap = await getDoc(refDoc);
-    const tasks = docSnap.data().value;
-    return tasks;
+    if (docSnap.exists()){
+
+      let tasks = docSnap.data().value;
+      tasks = tasks.map((value)=>{
+        const data = JSON.parse(value);
+        data.body = fromBase64(data.body);
+        return {
+          value: value,
+          data: data
+        }
+      });
+
+      return tasks;
+    }
+    else return [];
   }
 
   public async deleteTasks(routingKey: string, tasks: Array<string>): Promise<any> {
