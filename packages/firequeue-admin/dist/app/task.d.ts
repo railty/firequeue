@@ -18,6 +18,6 @@ export default class Task {
      * @example
      * client.createTask('task.add').delay(1, 2)
      */
-    delay(...args: any[]): AsyncResult;
-    applyAsync(args: Array<any>, kwargs?: object): AsyncResult;
+    delay(...args: any[]): Promise<AsyncResult>;
+    applyAsync(args: Array<any>, kwargs?: object): Promise<AsyncResult>;
 }

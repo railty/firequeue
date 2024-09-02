@@ -1,8 +1,8 @@
+import "mocha";
 import { assert } from "chai";
 import Redis from "ioredis";
 import Client from "../../src/app/client";
 import Worker from "../../src/app/worker";
-import { CeleryConf } from "../../src/app/conf";
 
 describe("node celery worker with redis broker", () => {
   const worker = new Worker(
@@ -28,47 +28,42 @@ describe("node celery worker with redis broker", () => {
   });
 
   describe("worker running", () => {
-    it("tasks.add", done => {
+    it("tasks.add", async () => {
       const client = new Client(
         "redis://localhost:6379/0",
         "redis://localhost:6379/0"
       );
-      const result = client.sendTask("tasks.add", [1, 2]);
-      result.get().then(data => {
-        assert.equal(data, 3);
+      const result = await client.sendTask("tasks.add", [1, 2]);
+      const data = await result.get();
+      assert.equal(data, 3);
 
-        client.disconnect().then(() => {
-          done();
-        });
-      });
+      await client.disconnect();
     });
 
-    it("tasks.add_kwargs", done => {
+    it("tasks.add_kwargs", async () => {
       const client = new Client(
         "redis://localhost:6379/0",
         "redis://localhost:6379/0"
       );
-      const result = client.sendTask("tasks.add_kwargs", [], { a: 1, b: 2 });
+      const result = await client.sendTask("tasks.add_kwargs", [], { a: 1, b: 2 });
 
-      result.get().then(data => {
-        assert.equal(data, 3);
+      const data  = await result.get()
+      assert.equal(data, 3);
 
-        client.disconnect().then(() => done());
-      });
+      await client.disconnect();
     });
 
-    it("tasks.add_mixed", done => {
+    it("tasks.add_mixed", async () => {
       const client = new Client(
         "redis://localhost:6379/0",
         "redis://localhost:6379/0"
       );
-      const result = client.sendTask("tasks.add_mixed", [3, 4], { c: 1, d: 2 });
+      const result = await client.sendTask("tasks.add_mixed", [3, 4], { c: 1, d: 2 });
 
-      result.get().then(data => {
-        assert.equal(data, 10);
+      const data = await result.get()
+      assert.equal(data, 10);
 
-        client.disconnect().then(() => done());
-      });
+      await client.disconnect();
     });
   });
 });
@@ -95,46 +90,42 @@ describe("node celery worker with redis broker", () => {
   });
 
   describe("worker running with amqp broker", () => {
-    it("tasks.add amqp", done => {
+    it("tasks.add amqp", async () => {
       const client = new Client(
         "redis://localhost:6379/0",
         "redis://localhost:6379/0"
       );
-      const result = client.sendTask("tasks.add", [1, 2]);
+      const result = await client.sendTask("tasks.add", [1, 2]);
+      const data = await result.get();
+      assert.equal(data, 3);
 
-      result.get().then(data => {
-        assert.equal(data, 3);
-
-        client.disconnect().then(() => done());
-      });
+      await client.disconnect();
     });
 
-    it("tasks.add_kwargs amqp", done => {
+    it("tasks.add_kwargs amqp", async () => {
       const client = new Client(
         "redis://localhost:6379/0",
         "redis://localhost:6379/0"
       );
-      const result = client.sendTask("tasks.add_kwargs", [], { a: 1, b: 2 });
+      const result = await client.sendTask("tasks.add_kwargs", [], { a: 1, b: 2 });
 
-      result.get().then(data => {
-        assert.equal(data, 3);
+      const data = await result.get();
+      assert.equal(data, 3);
 
-        client.disconnect().then(() => done());
-      });
+      await client.disconnect();
     });
 
-    it("tasks.add_mixed amqp", done => {
+    it("tasks.add_mixed amqp", async() => {
       const client = new Client(
         "redis://localhost:6379/0",
         "redis://localhost:6379/0"
       );
-      const result = client.sendTask("tasks.add_mixed", [3, 4], { c: 1, d: 2 });
+      const result = await client.sendTask("tasks.add_mixed", [3, 4], { c: 1, d: 2 });
 
-      result.get().then(data => {
-        assert.equal(data, 10);
+      const data = await result.get();
+      assert.equal(data, 10);
 
-        client.disconnect().then(() => done());
-      });
+      await client.disconnect();
     });
   });
 });

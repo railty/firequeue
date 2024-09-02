@@ -33,11 +33,13 @@ class Client extends base_1.default {
         return this.taskProtocols[this.conf.TASK_PROTOCOL];
     }
     sendTaskMessage(taskName, message) {
-        const { headers, properties, body /*, sentEvent */ } = message;
-        const exchange = "";
-        // exchangeType = 'direct';
-        // const serializer = 'json';
-        this.isReady().then(() => this.broker.publish(body, exchange, this.conf.CELERY_QUEUE, headers, properties));
+        return __awaiter(this, void 0, void 0, function* () {
+            const { headers, properties, body /*, sentEvent */ } = message;
+            const exchange = "";
+            // exchangeType = 'direct';
+            // const serializer = 'json';
+            yield this.broker.publish(body, exchange, this.conf.CELERY_QUEUE, headers, properties);
+        });
     }
     listResults() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -139,11 +141,13 @@ class Client extends base_1.default {
         return new result_1.AsyncResult(taskId, this.backend);
     }
     sendTask(taskName, args, kwargs, taskId) {
-        taskId = taskId || (0, uuid_1.v4)();
-        const message = this.createTaskMessage(taskId, taskName, args, kwargs);
-        this.sendTaskMessage(taskName, message);
-        const result = new result_1.AsyncResult(taskId, this.backend);
-        return result;
+        return __awaiter(this, void 0, void 0, function* () {
+            taskId = taskId || (0, uuid_1.v4)();
+            const message = this.createTaskMessage(taskId, taskName, args, kwargs);
+            yield this.sendTaskMessage(taskName, message);
+            const result = new result_1.AsyncResult(taskId, this.backend);
+            return result;
+        });
     }
 }
 exports.default = Client;

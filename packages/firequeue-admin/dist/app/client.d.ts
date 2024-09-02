@@ -11,7 +11,7 @@ declare class TaskMessage {
 export default class Client extends Base {
     private taskProtocols;
     get createTaskMessage(): (...args: any[]) => TaskMessage;
-    sendTaskMessage(taskName: string, message: TaskMessage): void;
+    sendTaskMessage(taskName: string, message: TaskMessage): Promise<void>;
     listResults(): Promise<any>;
     deleteResults(tasks: Array<string>): Promise<any>;
     listTasks(): Promise<any>;
@@ -44,6 +44,6 @@ export default class Client extends Base {
      * @returns {AsyncResult}
      */
     asyncResult(taskId: string): AsyncResult;
-    sendTask(taskName: string, args?: Array<any>, kwargs?: object, taskId?: string): AsyncResult;
+    sendTask(taskName: string, args?: Array<any>, kwargs?: object, taskId?: string): Promise<AsyncResult>;
 }
 export {};

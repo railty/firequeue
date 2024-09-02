@@ -56,22 +56,35 @@ class FirestoreBroker {
      * @returns {Promise}
      */
     publish(body, exchange, routingKey, headers, properties) {
-        const messageBody = JSON.stringify(body);
-        const contentType = "application/json";
-        const contentEncoding = "utf-8";
-        const message = {
-            body: Buffer.from(messageBody).toString("base64"),
-            "content-type": contentType,
-            "content-encoding": contentEncoding,
-            headers,
-            properties: Object.assign({ body_encoding: "base64", delivery_info: {
-                    exchange: exchange,
-                    routing_key: routingKey
-                }, delivery_mode: 2, delivery_tag: (0, uuid_1.v4)() }, properties)
-        };
-        const doc = this.collection.doc(routingKey);
-        return doc.update({
-            value: firestore_1.FieldValue.arrayUnion(JSON.stringify(message))
+        return __awaiter(this, void 0, void 0, function* () {
+            const messageBody = JSON.stringify(body);
+            const contentType = "application/json";
+            const contentEncoding = "utf-8";
+            const message = {
+                body: Buffer.from(messageBody).toString("base64"),
+                "content-type": contentType,
+                "content-encoding": contentEncoding,
+                headers,
+                properties: Object.assign({ body_encoding: "base64", delivery_info: {
+                        exchange: exchange,
+                        routing_key: routingKey
+                    }, delivery_mode: 2, delivery_tag: (0, uuid_1.v4)() }, properties)
+            };
+            const refDoc = this.collection.doc(routingKey);
+            try {
+                yield refDoc.update({
+                    value: firestore_1.FieldValue.arrayUnion(JSON.stringify(message))
+                });
+            }
+            catch (ex) {
+                if (ex.code === 5) { //celery key is not exist, meaning system not initilized yet
+                    yield refDoc.set({
+                        value: [JSON.stringify(message)]
+                    });
+                }
+                else
+                    console.log(ex);
+            }
         });
     }
     listTasks(routingKey) {
@@ -148,28 +161,30 @@ class FirestoreBroker {
             console.log("checking queue");
             const doc = this.collection.doc(queue);
             const results = yield doc.get();
-            const tasks = results.data()['value'];
-            if (tasks.length > 0) {
-                const result = tasks.shift();
-                doc.update({
-                    value: firestore_1.FieldValue.arrayRemove(result)
-                });
-                const rawMsg = JSON.parse(result);
-                // now supports only application/json of content-type
-                if (rawMsg["content-type"] !== "application/json") {
-                    throw new Error(`queue ${queue} item: unsupported content type ${rawMsg["content-type"]}`);
+            if (results.exists) {
+                const tasks = results.data()['value'];
+                if (tasks.length > 0) {
+                    const result = tasks.shift();
+                    doc.update({
+                        value: firestore_1.FieldValue.arrayRemove(result)
+                    });
+                    const rawMsg = JSON.parse(result);
+                    // now supports only application/json of content-type
+                    if (rawMsg["content-type"] !== "application/json") {
+                        throw new Error(`queue ${queue} item: unsupported content type ${rawMsg["content-type"]}`);
+                    }
+                    // now supports only base64 of body_encoding
+                    if (rawMsg.properties.body_encoding !== "base64") {
+                        throw new Error(`queue ${queue} item: unsupported body encoding ${rawMsg.properties.body_encoding}`);
+                    }
+                    // now supports only utf-8 of content-encoding
+                    if (rawMsg["content-encoding"] !== "utf-8") {
+                        throw new Error(`queue ${queue} item: unsupported content encoding ${rawMsg["content-encoding"]}`);
+                    }
+                    return new FirestoreMessage(rawMsg);
                 }
-                // now supports only base64 of body_encoding
-                if (rawMsg.properties.body_encoding !== "base64") {
-                    throw new Error(`queue ${queue} item: unsupported body encoding ${rawMsg.properties.body_encoding}`);
-                }
-                // now supports only utf-8 of content-encoding
-                if (rawMsg["content-encoding"] !== "utf-8") {
-                    throw new Error(`queue ${queue} item: unsupported content encoding ${rawMsg["content-encoding"]}`);
-                }
-                return new FirestoreMessage(rawMsg);
             }
-            //return null;
+            //wait for next check
             return new Promise((resolve) => {
                 setTimeout(() => { resolve(null); }, this.interval);
             });

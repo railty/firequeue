@@ -28,7 +28,7 @@ export default class FirestoreBroker implements CeleryBroker {
      *
      * @returns {Promise}
      */
-    publish(body: object | [Array<any>, object, object], exchange: string, routingKey: string, headers: object, properties: object): any;
+    publish(body: object | [Array<any>, object, object], exchange: string, routingKey: string, headers: object, properties: object): Promise<void>;
     listTasks(routingKey: string): Promise<any>;
     deleteTasks(routingKey: string, tasks: Array<string>): Promise<any>;
     /**

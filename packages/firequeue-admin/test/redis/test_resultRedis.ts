@@ -1,3 +1,4 @@
+import "mocha";
 import { assert } from "chai";
 import { AsyncResult } from "../../src/app/result";
 import RedisBackend from "../../src/backends/redis";

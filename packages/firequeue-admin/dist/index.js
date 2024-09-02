@@ -4,21 +4,18 @@ exports.createClient = createClient;
 exports.createWorker = createWorker;
 const client_1 = require("./app/client");
 const worker_1 = require("./app/worker");
-/**
- * @description Basic function for creating celery client
- *
- * @function
- * @returns {Client}
- */
-function createClient(broker = "amqp://", backend = "amqp://", queue = "celery") {
-    return new client_1.default(broker, backend, queue);
+function createClient(collection, queue = "celery") {
+    const client = new client_1.default("firestore://", "firestore://", queue);
+    client.conf.CELERY_BACKEND_OPTIONS["collection"] = collection;
+    client.conf.CELERY_BROKER_OPTIONS["collection"] = collection;
+    return client;
 }
-/**
- * @description Basic function for creating celery worker
- *
- * @function
- * @returns {Worker}
- */
-function createWorker(broker = "amqp://", backend = "amqp://", queue = "celery") {
-    return new worker_1.default(broker, backend, queue);
+function createWorker(collection, interval = 5000, queue = "celery") {
+    const worker = new worker_1.default('firestore://', 'firestore://', queue);
+    worker.conf.CELERY_BACKEND_OPTIONS["collection"] = collection;
+    worker.conf.CELERY_BROKER_OPTIONS = {
+        collection: collection,
+        interval: interval
+    };
+    return worker;
 }
