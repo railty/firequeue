@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dist": "npm run dist --workspace firequeue-admin",
-    "dev": "npm run dev --workspace firequeue-test"
+    "dist": "npm run dist --workspace firequeue-node"
   },
   "type": "module",
   "description": "celery use firestore as brokr and backend",
   "workspaces": [
-    "packages/*"
+    "firequeue", "firequeue-node"
   ],
   "repository": {
     "type": "git",
