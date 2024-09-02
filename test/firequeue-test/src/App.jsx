@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { createClient } from 'firequeue/packages/firequeue';
+import { createClient } from 'firequeue/firequeue';
 import { firestore } from "../initFb";
 import { collection } from "firebase/firestore"; 
 import { v4 } from "uuid";
