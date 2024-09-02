@@ -1,4 +1,4 @@
-import { createClient, createWorker } from 'firequeue/firequeue-node/dist/index.js';
+import { createClient, createWorker } from 'firequeue/firequeue-node';
 import { getApps, initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import serviceAccount from "./firequeue.sa.js";
