@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { createClient } from 'firequeue';
+import { createClient } from 'firequeue/packages/firequeue';
 import { firestore } from "../initFb";
 import { collection } from "firebase/firestore"; 
 import { v4 } from "uuid";
@@ -65,19 +65,25 @@ function App() {
     await dl();
   }
 
-  const toggleAll = async ()=>{
+  const toggleAllResults = async ()=>{
     let res = results.map((r)=>{
       r.selected = !r.selected;
       return r;
     })
     setResults([...res]);
   }
+  const toggleAllTasks = async ()=>{
+    let res = tasks.map((r)=>{
+      r.selected = !r.selected;
+      return r;
+    })
+    setTasks([...res]);
+  }
 
   return (
     <div className="bg-red-200">
       <button className="btn btn-primary" onClick={addTask}>Add task</button>
       <button className="btn btn-primary" onClick={list}>List</button>
-      <button className="btn btn-primary" onClick={toggleAll}>Toggle All</button>
 
       {tasks && (
         <table className="table border-2">
@@ -85,6 +91,7 @@ function App() {
             <tr>
               <th>Pending tasks total = {tasks.length}</th>
               <th><button className="btn btn-primary" onClick={deleteSelectedTasks}>Delete Selected Tasks</button></th>
+              <th><button className="btn btn-primary" onClick={toggleAllTasks}>Toggle All Tasks</button></th>
             </tr>      
           </thead>
           <tbody>
@@ -112,6 +119,7 @@ function App() {
             <tr>
               <th>Completed tasks (total = {results.length})</th>
               <th><button className="btn btn-primary" onClick={deleteSelectedResults}>Delete Selected Results</button></th>
+              <th><button className="btn btn-primary" onClick={toggleAllResults}>Toggle All Results</button></th>
             </tr>      
           </thead>
           <tbody>

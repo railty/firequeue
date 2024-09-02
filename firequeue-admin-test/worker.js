@@ -1,21 +1,14 @@
-import { initializeApp, cert } from 'firebase-admin/app';
+import { createClient, createWorker } from 'firequeue/packages/firequeue-admin/dist/index.js';
+import { getApps, initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import { createWorker } from 'firequeue-admin';
 import serviceAccount from "./firequeue.sa.js";
 
-initializeApp({
+if (getApps().length===0) initializeApp({
   credential: cert(serviceAccount)
 });
+const collection = getFirestore().collection("abc");
 
-const firestore = getFirestore();
-const collection = firestore.collection("abc");
-
-const worker = createWorker('firestore://', 'firestore://');
-worker.conf.CELERY_BACKEND_OPTIONS.collection = collection;
-worker.conf.CELERY_BROKER_OPTIONS = {
-  collection: collection,
-  interval: 5000
-};
+const worker = createWorker(collection);
 
 const sleep = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms));
