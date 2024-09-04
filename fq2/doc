@@ -1,0 +1,63 @@
+[]
+[
+  {
+    "body": [
+      [],
+      {
+        "uid": "Ls0MWGKADve3J4J6e4Q8ZzUIVpB2",
+        "date_submitted": 1725474717709,
+        "taskId": "To1xrwE3KSk2UgAPRXchDZQ",
+        "originalName": "inv2.jpg"
+      },
+      {}
+    ],
+    "content-type": "application/json",
+    "content-encoding": "utf-8",
+    "headers": {
+      "lang": "js",
+      "task": "job.tasks.rmaster",
+      "id": "To1xrwE3KSk2UgAPRXchDZQ"
+    },
+    "properties": {
+      "body_encoding": "base64",
+      "delivery_info": {
+        "exchange": "",
+        "routing_key": "celery"
+      },
+      "delivery_mode": 2,
+      "delivery_tag": "d4cab529-741a-4103-b803-301125c074c2",
+      "correlationId": "To1xrwE3KSk2UgAPRXchDZQ",
+      "replyTo": ""
+    }
+  },
+  {
+    "body": [
+      [],
+      {
+        "uid": "Ls0MWGKADve3J4J6e4Q8ZzUIVpB2",
+        "date_submitted": 1725474787085,
+        "taskId": "TKE0YUrvPRxuxddSRl0FstA",
+        "originalName": "inv4.jpg"
+      },
+      {}
+    ],
+    "content-type": "application/json",
+    "content-encoding": "utf-8",
+    "headers": {
+      "lang": "js",
+      "task": "job.tasks.rmaster",
+      "id": "TKE0YUrvPRxuxddSRl0FstA"
+    },
+    "properties": {
+      "body_encoding": "base64",
+      "delivery_info": {
+        "exchange": "",
+        "routing_key": "celery"
+      },
+      "delivery_mode": 2,
+      "delivery_tag": "e70ad99e-a535-4be5-8d46-cb9dd1a2ff56",
+      "correlationId": "TKE0YUrvPRxuxddSRl0FstA",
+      "replyTo": ""
+    }
+  }
+]
