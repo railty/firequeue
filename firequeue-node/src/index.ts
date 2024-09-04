@@ -1,5 +1,6 @@
 import Client from "./app/client";
 import Worker from "./app/worker";
+import STWorker from "./app/singleTaskWorker";
 
 export function createClient(collection, queue = "celery"): Client {
   const client = new Client("firestore://", "firestore://", queue);
@@ -16,4 +17,9 @@ export function createWorker(collection, interval = 5000, queue = "celery"): Wor
     interval: interval
   };
   return worker;
+}
+
+//create Single Task Worker
+export function createSTWorker(collection, interval = 5000, queue = "celery") {
+  return new STWorker(collection, interval, queue);
 }

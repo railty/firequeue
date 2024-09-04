@@ -126,7 +126,7 @@ class FirestoreBroker {
      * @param {Function} callback
      */
     receive(index, resolve, queue, callback) {
-        process.nextTick(() => this.recieveOneOnNextTick(index, resolve, queue, callback));
+        process.nextTick(() => this.receiveOneOnNextTick(index, resolve, queue, callback));
     }
     /**
      * @private
@@ -136,7 +136,7 @@ class FirestoreBroker {
      * @param {Function} callback
      * @returns {Promise}
      */
-    recieveOneOnNextTick(index, resolve, queue, callback) {
+    receiveOneOnNextTick(index, resolve, queue, callback) {
         if (this.closing) {
             resolve();
             return;

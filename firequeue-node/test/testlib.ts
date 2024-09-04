@@ -1,7 +1,7 @@
 import { getApps, initializeApp, cert, ServiceAccount } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import serviceAccount from "./firequeue.sa";
-import { createClient, createWorker } from "../src/index";
+import { createClient, createWorker, createSTWorker } from "../src/index";
 
 if (getApps().length===0) initializeApp({
   credential: cert(serviceAccount as ServiceAccount)
@@ -14,4 +14,8 @@ export const getWorker = () => {
 
 export const getClient = () => {
   return createClient(collection);
+}
+
+export const getSTWorker = () => {
+  return createSTWorker(collection);
 }

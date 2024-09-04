@@ -54,7 +54,7 @@ export default class FirestoreBroker implements CeleryBroker {
      * @param {Function} callback
      * @returns {Promise}
      */
-    private recieveOneOnNextTick;
+    private receiveOneOnNextTick;
     /**
      * @private
      * @param {string} queue

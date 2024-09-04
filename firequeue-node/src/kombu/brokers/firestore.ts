@@ -155,7 +155,7 @@ export default class FirestoreBroker implements CeleryBroker {
     callback: Function
   ): void {
     process.nextTick(() =>
-      this.recieveOneOnNextTick(index, resolve, queue, callback)
+      this.receiveOneOnNextTick(index, resolve, queue, callback)
     );
   }
 
@@ -167,7 +167,7 @@ export default class FirestoreBroker implements CeleryBroker {
    * @param {Function} callback
    * @returns {Promise}
    */
-  private recieveOneOnNextTick(
+  private receiveOneOnNextTick(
     index: number,
     resolve: Function,
     queue: string,
