@@ -1,0 +1,26 @@
+{
+  "name": "firequeue",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dist": "npm run dist --workspace firequeue-node"
+  },
+  "type": "module",
+  "description": "celery use firestore as brokr and backend",
+  "workspaces": [
+    "firequeue", "firequeue-node"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/railty/firequeue.git"
+  },
+  "keywords": [],
+  "author": "zxning@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/railty/firequeue/issues"
+  },
+  "homepage": "https://github.com/railty/firequeue#readme"
+}
+
+  

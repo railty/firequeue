@@ -1,0 +1,41 @@
+{
+  "name": "firequeue-node",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dist": "tsc",
+    "dev": "tsc --watch",
+    "test": "mocha -t 120000 -r ts-node/register ./test/test.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/chai": "^4.3.19",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^22.5.1",
+    "@types/sinon": "^17.0.3",
+    "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.3.0",
+    "@typescript-eslint/parser": "^8.3.0",
+    "chai": "^4.5.0",
+    "eslint": "^9.9.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-mocha": "^10.5.0",
+    "mocha": "^10.7.3",
+    "sinon": "^18.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.4.0",
+    "ioredis": "^5.4.1"
+  }
+}

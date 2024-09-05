@@ -1,0 +1,17 @@
+{
+  "name": "firequeue-node-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "firebase-admin": "^12.4.0",
+    "firequeue": "github:railty/firequeue"
+  }
+}
